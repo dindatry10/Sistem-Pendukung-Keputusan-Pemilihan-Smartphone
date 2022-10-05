@@ -68,23 +68,23 @@
     </div>
     <div class="form-group mb-3">
         <label>Harga Angka</label>
-        <input name="harga_angka" type="text" class="form-control" placeholder="Masukkan data angka harga smartphone" value="{{ $list->harga_angka}}">
+        <input name="harga_angka" type="text" class="form-control" placeholder="Masukkan data angka harga smartphone" value="{{ $list->harga_angka}}" readonly>
     </div>
     <div class="form-group mb-3">
         <label>RAM Angka</label>
-        <input name="ram_angka" type="text" class="form-control" placeholder="Masukkan data angka ram smartphone" value="{{ $list->ram_angka}}">
+        <input name="ram_angka" type="text" class="form-control" placeholder="Masukkan data angka ram smartphone" value="{{ $list->ram_angka}}" readonly>
     </div>
     <div class="form-group mb-3">
         <label>Memori Angka</label>
-        <input name="memori_angka" type="text" class="form-control" placeholder="Masukkan data angka memori smartphone" value="{{ $list->memori_angka}}">
+        <input name="memori_angka" type="text" class="form-control" placeholder="Masukkan data angka memori smartphone" value="{{ $list->memori_angka}}" readonly>
     </div>
     <div class="form-group mb-3">
         <label>Processor Angka</label>
-        <input name="processor_angka" type="text" class="form-control" placeholder="Masukkan data angka procesor smartphone" value="{{ $list->processor_angka}}">
+        <input name="processor_angka" type="text" class="form-control" placeholder="Masukkan data angka procesor smartphone" value="{{ $list->processor_angka}}" readonly>
     </div>
     <div class="form-group mb-3">
         <label>Kamera Angka</label>
-        <input name="kamera_angka" type="text" class="form-control" placeholder="Masukkan data angka kamera smartphone" value="{{ $list->kamera_angka}}">
+        <input name="kamera_angka" type="text" class="form-control" placeholder="Masukkan data angka kamera smartphone" value="{{ $list->kamera_angka}}" readonly>
     </div>
 
         <a href="/admin/list" class="btn btn-secondary">Kembali</a>

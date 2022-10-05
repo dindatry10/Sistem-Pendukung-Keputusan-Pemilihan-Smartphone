@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{asset('assets')}}/css/demo_1/style.css" />
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('assets')}}/images/logos.png" />
+    <script src="{{asset('js')}}/jquery-3.6.1.min.js"></script>
+
   </head>
   <body>
     <div class="container-scroller">
@@ -190,7 +192,6 @@
       <!-- page-body-wrapper ends -->
     </div>
     {{-- Script js Search --}}
-    <script type="text/javascript" src="{{asset('assets')}}/js/materialize.js"></script>
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="{{asset('assets')}}/vendors/js/vendor.bundle.base.js"></script>
