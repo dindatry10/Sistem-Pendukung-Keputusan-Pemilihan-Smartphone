@@ -107,25 +107,96 @@ class AdminController extends Controller
         return redirect('/admin/list');
     }
 
-    //Bobot
-
-    public function pembagiNM()
-    {
-    }
-
     function dashboard()
     {
-
         return view('dashboards.admins.dashboard.dashboard');
     }
     function rekomendasi()
     {
         return view('dashboards.admins.rekomendasi.rekomendasi');
     }
-    function hasil()
+    function hasil(Request $request)
     {
+        $user_input = $request->post();
+        $user_input = [
+            intval($user_input[0]),
+            intval($user_input[1]),
+            intval($user_input[2]),
+            intval($user_input[3]),
+            intval($user_input[4]),
+        ];
+
+        $data_raw = DB::table('datas')->get();
+
+        $data = [];
+        $bobot = [0, 0, 0, 0, 0];
+
+        foreach ($data_raw as $key => $value) {
+            $data[] = [
+                $value->harga_angka,
+                $value->ram_angka,
+                $value->memori_angka,
+                $value->processor_angka,
+                $value->kamera_angka
+            ];
+        }
+
+        foreach ($data as $key => $value) {
+            $bobot[0] += pow($value[0], 2);
+            $bobot[1] += pow($value[1], 2);
+            $bobot[2] += pow($value[2], 2);
+            $bobot[3] += pow($value[3], 2);
+            $bobot[4] += pow($value[4], 2);
+        }
+
+        foreach ($bobot as $key => $value) {
+            $bobot[$key] = sqrt($value);
+        }
+
+        $normalisasi_r = [];
+        foreach ($data as $key => $a) {
+            $h = [];
+            foreach ($bobot as $key => $k) {
+                $h[] =  $a[$key] / $k;
+            }
+            $normalisasi_r[] = $h;
+        }
+
+        $max = [99, 0, 0, 0, 0];
+        $min = [0, 99, 99, 99, 99];
+
+        $normalisasi_terbobot = [];
+        foreach ($normalisasi_r as $key => $a) {
+            $h = [];
+            foreach ($user_input as $key => $k) {
+                $j = $a[$key] * $k;
+                $h[] = $j;
+                if ($key == 0) {
+                    $max[$key] = ($j < $max[$key]) ? $j : $max[$key];
+                    $min[$key] = ($j > $min[$key]) ? $j : $min[$key];
+                } else {
+                    $max[$key] = ($j > $max[$key]) ? $j : $max[$key];
+                    $min[$key] = ($j < $min[$key]) ? $j : $min[$key];
+                }
+            }
+            $normalisasi_terbobot[] = $h;
+        }
+
+        // ------------------------------
+
+
+
+
+
+
+
+        dd($normalisasi_terbobot, $max, $min);
+
+
+
         return view('dashboards.admins.rekomendasi.hasil');
     }
+
     function tentang()
     {
         return view('dashboards.admins.tentang.tentang');

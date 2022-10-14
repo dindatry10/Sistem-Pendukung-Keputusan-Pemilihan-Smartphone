@@ -15,7 +15,7 @@
         </div>
         <div class="form-group mb-3">
           <label>Harga Handphone</label>
-          <input name="harga" type="number" class="form-control" placeholder="Masukkan data harga smartphone" value="">
+          <input id="harga" name="harga" type="number" class="form-control" placeholder="Masukkan data harga smartphone" value="">
         </div>
         <div class="form-group mb-3">
           <label class="form-label">RAM Handphone</label>
@@ -56,23 +56,23 @@
         
         <div class="form-group mb-3">
           <label>Harga Angka</label>
-          <input name="harga_angka" type="text" class="form-control" placeholder="Masukkan data angka harga smartphone" value="">
+          <input name="harga_angka" id="harga_angka" type="text" class="form-control" placeholder="Masukkan data angka harga smartphone" value="" readonly>
         </div>
         <div class="form-group mb-3">
           <label>RAM Angka</label>
-          <input name="ram_angka" id="ram_angka" type="text" class="form-control" placeholder="Masukkan data angka ram smartphone" value="" readonly>
+          <input name="ram_angka" id="ram_angka" type="number" class="form-control" placeholder="Masukkan data angka ram smartphone" value="" readonly>
         </div>
         <div class="form-group mb-3">
           <label>Memori Angka</label>
-          <input name="memori_angka" id="memori_angka" type="text" class="form-control" placeholder="Masukkan data angka memori smartphone" value="" readonly>
+          <input name="memori_angka" id="memori_angka" type="number" class="form-control" placeholder="Masukkan data angka memori smartphone" value="" readonly>
         </div>
         <div class="form-group mb-3">
           <label>Processor Angka</label>
-          <input name="processor_angka" id="processor_angka" type="text" class="form-control" placeholder="Masukkan data angka procesor smartphone" value="" readonly>
+          <input name="processor_angka" id="processor_angka" type="number" class="form-control" placeholder="Masukkan data angka procesor smartphone" value="" readonly>
         </div>
         <div class="form-group mb-3">
           <label>Kamera Angka</label>
-          <input name="kamera_angka" id="kamera_angka" type="text" class="form-control" placeholder="Masukkan data angka kamera smartphone" value=""readonly>
+          <input name="kamera_angka" id="kamera_angka" type="number" class="form-control" placeholder="Masukkan data angka kamera smartphone" value=""readonly>
         </div>
 
         <a href="/admin/list" class="btn btn-secondary">Kembali</a>
@@ -80,6 +80,29 @@
       </form>
 </div>
 <script>
+  $('#harga').on('change', function(){
+    let valueHarga = $('#harga').val();
+
+    let harga;
+    if(valueHarga < 1000000){
+      harga = 5;
+    }
+    else if(valueHarga >= 1000000 && valueHarga <= 3000000){
+      harga = 4;
+    }
+    else if(valueHarga > 3000000 && valueHarga <= 4000000){
+      harga = 3;
+    }
+    else if(valueHarga > 4000000 && valueHarga <= 5000000){
+      harga = 2;
+    }
+    else if(valueHarga > 5000000){
+      harga = 1;
+    }
+    
+    $('#harga_angka').val(harga);
+  });
+
   $('#ram').on('change', function(){
     let valueRam = $('#ram').val();
 

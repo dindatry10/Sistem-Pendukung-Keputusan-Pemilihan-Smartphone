@@ -38,12 +38,11 @@
                         class="btn btn-success mdi mdi-file-check btn-icon-prepend">Edit</a>
                     <button onclick="hapus({{ $item->id_hp}})" class="btn btn-danger mdi mdi-delete">Hapus</button>
                 </td>
-                </tr>
+            </tr>
             @endforeach
         </tbody>
     </table>
-    {{-- End Tabel Daftar Smartphone --}}
-
+{{-- End Tabel Daftar Smartphone --}}
     <hr>
     <center><h5>Analisa Smartphone</h5></center>
     <hr>
@@ -72,7 +71,6 @@
             </tr>
             @endforeach
 			</tbody>
-        
         </table>
 {{-- End Tabel Analisa Smartphone --}}  
 

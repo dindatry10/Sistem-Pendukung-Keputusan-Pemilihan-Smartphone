@@ -13,7 +13,7 @@
       @csrf
         <div class="form-group mb-3">
           <label class="form-label">Kriteria Harga</label>
-          <select class="form-control" id="harga" name="harga">
+          <select class="form-control" id="harga" name="0">
             <option value = "" disabled selected style="color: #306283;"><i>Kriteria Harga</i></option>
             <option value = "5">< Rp. 1.000.000</option>
             <option value = "4">1.000.000 - 3.000.000</option>
@@ -24,47 +24,48 @@
         </div>
         <div class="form-group mb-3">
           <label class="form-label">RAM</label>
-          <select class="form-control" id="ram" name="ram">
+          <select class="form-control" id="ram" name="1">
             <option value = "" disabled selected style="color: #306283;"><i>Kriteria RAM</i></option>
             <option value = "1">1 Gb</option>
 						<option value = "2">2 Gb</option>
 						<option value = "3">3 Gb</option>
 						<option value = "4">4 Gb</option>
-						<option value = "6">6 Gb</option> 
+						<option value = "5">6 Gb</option> 
           </select>
         </div>
         <div class="form-group mb-3">
           <label class="form-label">Memori</label>
-          <select class="form-control" id="memori" name="memori">
+          <select class="form-control" id="memori" name="2">
             <option value = "" disabled selected style="color: #306283;"><i>Kriteria Memori</i></option>
-            <option value = "4">4 Gb</option>
-						<option value = "8">8 Gb</option>
-						<option value = "16">16 Gb</option>
-						<option value = "32">32 Gb</option>
-						<option value = "64">64 Gb</option>
+            <option value = "1">4 Gb</option>
+						<option value = "2">8 Gb</option>
+						<option value = "3">16 Gb</option>
+						<option value = "4">32 Gb</option>
+						<option value = "5">64 Gb</option>
           </select>
         </div>
         <div class="form-group mb-3">
           <label class="form-label">Processor</label>
-          <select class="form-control" id="processor" name="processor">
+          <select class="form-control" id="processor" name="3">
             <option value = "" disabled selected style="color: #306283;"><i>Kriteria Processor</i></option>
-            <option value = "Dualcore">Dualcore</option>
-						<option value = "Quadcore">Quadcore</option>
-						<option value = "Octacore">Octacore</option>
+            <option value = "1">Dualcore</option>
+						<option value = "3">Quadcore</option>
+						<option value = "5">Octacore</option>
           </select>
         </div>
         <div class="form-group mb-3">
           <label class="form-label">Kamera</label>
-          <select class="form-control" id="kamera" name="kamera">
+          <select class="form-control" id="kamera" name="4">
             <option value = "" disabled selected style="color: #306283;"><i>Kriteria Kamera</i></option>
-            <option value = "8">8 Mp</option>
-						<option value = "13">13 Mp</option>
-						<option value = "16">16 Mp</option>
+            <option value = "1">8 Mp</option>
+						<option value = "3">13 Mp</option>
+						<option value = "5">16 Mp</option>
           </select>
         </div>
-        <a href="{{ route('admin.hasil')}}" type="submit" class="btn btn-primary" style="margin-bottom:20px">Hitung</a>
+        
+        <input type="submit" class="btn btn-primary" style="margin-bottom:20px" value="Hitung">
       </form>
-    
     </div>
+
 </body>
 @endsection
