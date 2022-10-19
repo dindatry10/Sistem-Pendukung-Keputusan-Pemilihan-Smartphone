@@ -184,17 +184,41 @@ class AdminController extends Controller
 
         // ------------------------------
 
+        $jarakPlus = [];
+        $jarakMinus = [];
 
+        foreach ($normalisasi_terbobot as $key1 => $value1) {
+            $dplus = 0;
+            $dmin = 0;
+            foreach ($max as $i => $value2) {
+                $dplus += pow($max[$i] - $value1[$i], 2);
+                $dmin += pow($min[$i] - $value1[$i], 2);
+            }
 
+            array_push($jarakPlus, sqrt($dplus));
+            array_push($jarakMinus, sqrt($dmin));
+        }
 
+        $v = [];
+        $max = 0;
+        $seletedAlt = 0;
+        foreach ($jarakMinus as $key => $value) {
+            $va = $value / ($value + $jarakPlus[$key]);
+            if ($max < $va) {
+                $max = $va;
+                $seletedAlt = $key;
+            }
+            $v[] = $va;
+        }
 
+        // dd($v, $max, $seletedAlt, $data_raw[$seletedAlt]);
 
+        // dd($data, $normalisasi_r, $normalisasi_terbobot, $min, $jarakPlus, $jarakMinus, $v, $max, $seletedAlt, $data_raw[$seletedAlt]);
+        // dd($data);
+        // dd($data_raw[$seletedAlt]);
 
-        dd($normalisasi_terbobot, $max, $min);
-
-
-
-        return view('dashboards.admins.rekomendasi.hasil');
+        $hasil = $data_raw[$seletedAlt];
+        return view('dashboards.admins.rekomendasi.hasil', compact('hasil'));
     }
 
     function tentang()
