@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Dotenv\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -11,10 +14,22 @@ class AdminController extends Controller
     public function list()
     {
         // ini untuk mengambil semua data di table datas
-        $data['list'] = DB::table('datas')->get();
+        $data['list'] = DB::table('datas')
+            // ->orderBy('nama_hp', 'asc')
+            ->get();
         // CHECK DATA
         // dd($data['list']);
         return view('dashboards.admins.list.list', $data);
+    }
+
+    public function search(Request $request)
+    {
+        if ($request->has('search')) {
+            $data = DB::where('nama_hp', 'LIKE', '%' . $request->search . '%')->get();
+        } else {
+            $data = DB::all();
+        }
+        return view('dashboards.admins.list.list', ['data' => $data]);
     }
 
     public function edit($id_hp)
@@ -107,15 +122,15 @@ class AdminController extends Controller
         return redirect('/admin/list');
     }
 
-    function dashboard()
+    public function dashboard()
     {
         return view('dashboards.admins.dashboard.dashboard');
     }
-    function rekomendasi()
+    public function rekomendasi()
     {
         return view('dashboards.admins.rekomendasi.rekomendasi');
     }
-    function hasil(Request $request)
+    public function hasil(Request $request)
     {
         $user_input = $request->post();
         $user_input = [
@@ -221,8 +236,108 @@ class AdminController extends Controller
         return view('dashboards.admins.rekomendasi.hasil', compact('hasil'));
     }
 
-    function tentang()
+    public function tentang()
     {
         return view('dashboards.admins.tentang.tentang');
+    }
+    public function profile()
+    {
+        return view('dashboards.admins.profile.profile');
+    }
+
+    public function updateInfo(Request $request)
+    {
+
+        $validator = \Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . Auth::user()->id,
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            $query = User::find(Auth::user()->id)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+
+            if (!$query) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
+            } else {
+                return response()->json(['status' => 1, 'msg' => 'Your profile info has been update successfuly.']);
+            }
+        }
+    }
+
+    public function updatePicture(Request $request)
+    {
+        $path = 'users/images/';
+        $file = $request->file('admin_image');
+        $new_name = 'UIMG_' . date('Ymd') . uniqid() . '.jpg';
+
+        //Upload new image
+        $upload = $file->move(public_path($path), $new_name);
+
+        if (!$upload) {
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong, upload new picture failed.']);
+        } else {
+            //Get Old picture
+            $oldPicture = User::find(Auth::user()->id)->getAttributes()['picture'];
+
+            if ($oldPicture != '') {
+                if (\File::exists(public_path($path . $oldPicture))) {
+                    \File::delete(public_path($path . $oldPicture));
+                }
+            }
+
+            //Update DB
+            $update = User::find(Auth::user()->id)->update(['picture' => $new_name]);
+
+            if (!$upload) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong, updating picture in db failed.']);
+            } else {
+                return response()->json(['status' => 1, 'msg' => 'Your profile picture has been updated successfully']);
+            }
+        }
+    }
+
+    public function changePassword(Request $request)
+    {
+        //Validate form
+        $validator = \Validator::make($request->all(), [
+            'oldpassword' => [
+                'required', function ($attribute, $value, $fail) {
+                    if (!\Hash::check($value, Auth::user()->password)) {
+                        return $fail(__('The current password is incorrect'));
+                    }
+                },
+                'min:8',
+                'max:30'
+            ],
+            'newpassword' => 'required|min:8|max:30',
+            'cnewpassword' => 'required|same:newpassword'
+        ], [
+            'oldpassword.required' => 'Enter your current password',
+            'oldpassword.min' => 'Old password must have atleast 8 characters',
+            'oldpassword.max' => 'Old password must not be greater than 30 characters',
+            'newpassword.required' => 'Enter new password',
+            'newpassword.min' => 'New password must have atleast 8 characters',
+            'newpassword.max' => 'New password must not be greater than 30 characters',
+            'cnewpassword.required' => 'ReEnter your new password',
+            'cnewpassword.same' => 'New password and Confirm new password must match'
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+
+            $update = User::find(Auth::user()->id)->update(['password' => \Hash::make($request->newpassword)]);
+
+            if (!$update) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong, Failed to update password in db']);
+            } else {
+                return response()->json(['status' => 1, 'msg' => 'Your password has been changed successfully']);
+            }
+        }
     }
 }

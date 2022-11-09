@@ -81,10 +81,22 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+        // ** Buat avatar menggunakan fonts */
+
+        $path = 'users/images/';
+        $fontPath = public_path('fonts/Oliciy.ttf');
+        $char = strtoupper($request->name[0]);
+        $newAvatarName = rand(12, 34353) . time() . '_avatar.png';
+        $dest = $path . $newAvatarName;
+
+        $createAvatar = makeAvatar($fontPath, $dest, $char);
+        $picture = $createAvatar == true ? $newAvatarName : '';
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->role = 2;
+        $user->picture = $picture;
         $user->password = Hash::make($request->password);
 
         if ($user->save()) {

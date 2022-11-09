@@ -3,7 +3,14 @@ html,body {
 }
 
 body.my-login-page {
-	background-color: #ececec;
+	background-color: #ffffff;
+	background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://img.freepik.com/free-photo/woman-holding-smartphone-hands_23-2148793490.jpg?w=826&t=st=1667191145~exp=1667191745~hmac=201e4cea45962fbefe6df7ab90d1692104d0dd4a7080a517892ffd15246d71e5")
+	no-repeat center center;
+	background-size: cover;
+    background-position: center;
+	padding-top: 5%;
+    padding-bottom: 20%;
+	background-size: cover;
 	font-size: 14px;
 }
 
@@ -59,6 +66,7 @@ body.my-login-page {
 
 @media screen and (max-width: 425px) {
 	.my-login-page .card-wrapper {
+		background-color: #ffffff;
 		width: 90%;
 		margin: 0 auto;
 	}

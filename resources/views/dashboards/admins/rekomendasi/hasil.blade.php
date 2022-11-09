@@ -1,4 +1,4 @@
-@extends('dashboards.admins.layouts.admin-dash-layout')
+@extends('dashboards.admins.rekomendasi.admin-dash-layout')
 @section('title','Hasil')
 
 @section('content')
@@ -6,11 +6,31 @@
 <body>
     <div class="card">
     <div class="card-body p-5">
-    <center><h3>Hasil Perhitungan TOPSIS Rekomendasi Smartphone</h3></center>
+    <center><h5 class="text-primary">Hasil Perhitungan TOPSIS Rekomendasi Smartphone</h5></center>
     <hr>
-    <h6>Nilai Preferensi tertinggi</h6>
+    <center><h6 class="text-danger">Nilai Preferensi tertinggi</h6></center>
     <hr>
-    <table class="table table-hover table-striped table-bordered ">
+<div class="row justify-content-md-center h-100">
+    <div class="col-sm-4 stretch-card grid-margin">
+        <div class="card">
+          <div class="card-body p-0">
+            <img class="img-fluid w-100" src="{{asset('assets')}}/images/dashboard/sm2.jpg" alt="" />
+          </div>
+          <div class="card-body px-3 text-dark">
+            <h5 class="font-weight-semibold"><center> <?= $hasil->nama_hp; ?> </center> </h5>
+            <ul class="list-ticked">
+                <li>Harga :  Rp.<?= $hasil->harga_hp; ?></li>
+                <li>Ram : <?= $hasil->ram_hp; ?></li>
+                <li>Memori : <?= $hasil->memori_hp; ?></li>
+                <li>Processor : <?= $hasil->processor_hp; ?></li>
+                <li>Kamera : <?= $hasil->kamera_hp; ?></li>
+              </ul>
+          </div>
+        </div>
+    </div>
+</div>
+
+    {{-- <table class="table table-hover table-striped table-bordered ">
         <thead>
             <tr>
                 <tr>
@@ -24,15 +44,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><?= $hasil->nama_hp; ?></td>
-                <td><?= $hasil->harga_hp; ?></td>
-                <td><?= $hasil->ram_hp; ?></td>
-                <td><?= $hasil->memori_hp; ?></td>
-                <td><?= $hasil->processor_hp; ?></td>
-                <td><?= $hasil->kamera_hp; ?></td>
+            <tr class="table-primary">
+                <td><center><?= $hasil->nama_hp; ?></center></td>
+                <td><center><?= $hasil->harga_hp; ?></center></td>
+                <td><center><?= $hasil->ram_hp; ?></center></td>
+                <td><center><?= $hasil->memori_hp; ?></center></td>
+                <td><center><?= $hasil->processor_hp; ?></center></td>
+                <td><center><?= $hasil->kamera_hp; ?></center></td>
             </tr>
         </tbody>
-    </table>
+    </table> --}}
+
 </body>
 @endsection

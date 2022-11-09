@@ -4,82 +4,123 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Sistem Pendukung Keputusan</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{asset('assets')}}/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="{{asset('assets')}}/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="{{asset('assets')}}/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="{{asset('assets')}}/style.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{asset('assets')}}/vendors/jquery-bar-rating/css-stars.css" />
     <link rel="stylesheet" href="{{asset('assets')}}/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="{{ asset('plugins/ijaboCropTool/ijaboCropTool.min.css') }}">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="{{asset('assets')}}/css/demo_1/style.css" />
+    <link rel="stylesheet" href="{{asset('assets')}}/css/demo_2/style.css" />
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('assets')}}/images/logos.png" />
+    <script src="{{asset('js')}}/jquery-3.6.1.min.js"></script>
   </head>
   <body>
     <div class="container-scroller">
-      <!-- partial:partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item nav-profile border-bottom">
-            <a href="#" class="nav-link flex-column">
-              <div class="nav-profile-image">
-                <img src="{{asset('assets')}}/images/faces/face1.jpg" alt="profile" />
-                <!--change to offline or busy as needed-->
-              </div>
-              <div class="nav-profile-text d-flex ml-0 mb-3 flex-column">
-                <span class="font-weight-semibold mb-1 mt-2 text-center">Admin</span>
-                <span class="text-secondary icon-sm text-center">Dinda Tryandhary</span>
-              </div>
-            </a>
-          </li>
-      
-          <li class="nav-item pt-3">
-            <form class="d-flex align-items-center" action="#">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <i class="input-group-text border-0 mdi mdi-magnify"></i>
-                </div>
-                <input type="text" class="form-control border-0" placeholder="Search" />
-              </div>
-            </form>
-          </li>
-          <li class="pt-2 pb-1">
-            <span class="nav-item-head">Template Pages</span>
-          </li>
-           {{-- Menu  --}}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('user.dashboard')}}">
-              <i class="mdi mdi-view-dashboard menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('user.rekomendasi')}}">
-                <i class="mdi mdi-wunderlist menu-icon"></i>
-                <span class="menu-title">Recommendation</span>
+      <!-- partial:partials/_horizontal-navbar.html -->
+      <div class="horizontal-menu">
+        <nav class="navbar top-navbar col-lg-12 col-12 p-0">
+          <div class="container col-11">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+              <a class="navbar-brand brand-logo" href="index.html">
+                <img src="{{asset('assets')}}/images/logo.svg" alt="logo" />
+                <span class="font-12 d-block font-weight-light">Sistem Pendukung Keputusan </span>
               </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('user.list')}}">
-                <i class="mdi mdi-cellphone-android menu-icon"></i>
-                <span class="menu-title">Daftar Smartphone</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('user.tentang')}}">
-                <i class="mdi mdi-file-document-box menu-icon"></i>
-                <span class="menu-title">Tentang</span>
-              </a>
-            </li>
-            <li class="nav-item pt-3">
-              <a class="nav-link" href="{{ route('logout') }}"
+              <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('assets')}}/images/logo-mini.svg" alt="logo" /></a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+              <ul class="navbar-nav mr-lg-2">
+                <li class="nav-item nav-search d-none d-lg-block">
+                  <div class="input-group">
+                    <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                      <span class="input-group-text" id="search">
+                        <i class="mdi mdi-magnify"></i>
+                      </span>
+                    </div>
+                    <input type="search" class="form-control" id="navbar-search-input" placeholder="Search" aria-label="search" aria-describedby="search" />
+                  </div>
+                </li>
+              </ul>
+              <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item nav-profile dropdown">
+                  <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                    <div class="nav-profile-img">
+                      <img src="{{ Auth::user()->picture }}" alt="profile" />
+                    </div>
+                    <div class="nav-profile-text">
+                      <p class="text-black font-weight-semibold m-0 font-13"> {{ Auth::user()->name }} </p>
+                      <span class="font-13 online-color">online <i class="mdi mdi-chevron-down"></i></span>
+                    </div>
+                  </a>
+                  <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                      <i class="mdi mdi-logout mr-2 text-primary"></i> Logout </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                      @csrf
+                    </form>
+                  </div>
+                </li>
+              </ul>
+              <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle">
+                <span class="mdi mdi-menu"></span>
+              </button>
+            </div>
+          </div>
+        </nav>
+        <nav class="bottom-navbar">
+          <div class="container">
+            <ul class="nav page-navigation">
+              <li class="nav-item">
+                <a class="nav-link {{ (request()->is('user/dashboard*')) ? 'active' : ''}}" href="{{ route('user.dashboard')}}">
+                  <i class="mdi mdi-compass-outline menu-icon"></i>
+                  <span class="menu-title">Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {{ (request()->is('user/rekomendasi*')) ? 'active' : ''}}" href="{{ route('user.rekomendasi')}}">
+                  <i class="mdi mdi-wunderlist menu-icon"></i>
+                  <span class="menu-title">Rekomendasi</span>
+                </a>
+              </li>
+              {{-- <li class="nav-item">
+                <a class="nav-link {{ (request()->is('user/hasil*')) ? 'active' : ''}}" href="{{ route('user.hasil')}}">
+                  <i class="mdi mdi-account-search menu-icon"></i>
+                  <span class="menu-title">Hasil</span>
+                </a>
+              </li> --}}
+              <li class="nav-item">
+                <a class="nav-link {{ (request()->is('user/list*')) ? 'active' : ''}}" href="{{ route('user.list')}}">
+                  <i class="mdi mdi-cellphone-android menu-icon"></i>
+                  <span class="menu-title">Data Smartphone</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {{ (request()->is('user/tentang*')) ? 'active' : ''}}" href="{{ route('user.tentang')}}">
+                  <i class="mdi mdi-file-document-box menu-icon"></i>
+                  <span class="menu-title">About Project</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {{ (request()->is('user/profile*')) ? 'active' : ''}}" href="{{ route('user.profile')}}">
+                  <i class="mdi mdi mdi-settings menu-icon"></i>
+                  <span class="menu-title">Setting Profile</span>
+                </a>
+              </li>  
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('logout') }}"
               onclick="event.preventDefault();
                               document.getElementById('logout-form').submit();">
                 <i class="mdi mdi-logout menu-icon"></i>
@@ -88,104 +129,70 @@
               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
               </form>
-            </li>
-        </ul>
-      </nav>
-      <!-- partial -->
-      <div class="container-fluid page-body-wrapper">
-        <!-- partial:partials/_settings-panel.html -->
-        <div id="settings-trigger"><i class="mdi mdi-settings"></i></div>
-        <div id="theme-settings" class="settings-panel">
-          <i class="settings-close mdi mdi-close"></i>
-          <p class="settings-heading">SIDEBAR SKINS</p>
-          <div class="sidebar-bg-options selected" id="sidebar-default-theme">
-            <div class="img-ss rounded-circle bg-light border mr-3"></div>Default
-          </div>
-          <div class="sidebar-bg-options" id="sidebar-dark-theme">
-            <div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark
-          </div>
-          <p class="settings-heading mt-2">HEADER SKINS</p>
-          <div class="color-tiles mx-0 px-4">
-            <div class="tiles default primary"></div>
-            <div class="tiles success"></div>
-            <div class="tiles warning"></div>
-            <div class="tiles danger"></div>
-            <div class="tiles info"></div>
-            <div class="tiles dark"></div>
-            <div class="tiles light"></div>
-          </div>
-        </div>
-        <!-- partial -->
-        <!-- partial:partials/_navbar.html -->
-        <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-          <div class="navbar-menu-wrapper d-flex align-items-stretch">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-              <span class="mdi mdi-chevron-double-left"></span>
-            </button>
-            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-              <a class="navbar-brand brand-logo-mini" href="#"><img src="{{asset('assets')}}/images/logo-mini.svg" alt="logo" /></a>
-            </div>
-            <ul class="navbar-nav navbar-nav-right">
-              <li class="nav-item nav-logout d-none d-lg-block">
-                <a class="nav-link" href="{{ route('user.dashboard')}}">
-                  <i class="mdi mdi-home-circle"></i>
-                </a>
+              </li>
+              
+              <li class="nav-item">
+                <div class="nav-link d-flex">
+                  
+                  {{-- <button class="btn btn-sm bg-danger text-white"> Sistem Pendukung Keputusan </button> --}}
+                  <a class="text-white" href="{{ route('user.dashboard')}}"><i class="mdi mdi-home-circle"></i></a>
+                </div>
               </li>
             </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-              <span class="mdi mdi-menu"></span>
-            </button>
           </div>
         </nav>
-        <!-- partial -->
-        <div class="main-panel">
-          <div class="content-wrapper pb-0">
-            <div class="page-header flex-wrap">
-              <div class="header-left">
-                <button class="btn btn-primary mb-2 mb-md-0 mr-2"> Create new document </button>
-                <button class="btn btn-outline-primary bg-white mb-2 mb-md-0"> Import documents </button>
-              </div>
-              <div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
-                <div class="d-flex align-items-center">
-                  <a href="#">
-                    <p class="m-0 pr-3">@yield('title')</p>
-                    <base href="{{ \URL::to('/')}}"
-                  </a>
-                  <a class="pl-3 mr-4" href="#">
-                    <p class="m-0">ADE-00234</p>
-                  </a>
-                </div>
-                <button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
-                  <i class="mdi mdi-plus-circle"></i> Tambah Data </button>
-              </div>
-            </div>
-
-          <section class="content">
-            @yield('content')
-          </section>
-
-          <footer class="footer">
-            <style>
-              footer {
-                  margin-top: 50%;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  background-color: cadetblue;
-              }
-          </style>
-
-            <div class="d-sm-flex justify-content-center justify-content-sm-between margin">
-              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
-            </div>
-          </div>
-          </footer>
-          <!-- partial -->
-        </div>
-        <!-- main-panel ends -->
       </div>
-      <!-- page-body-wrapper ends -->
+     <!-- partial -->
+     <div class="main-panel">
+      <div class="content-wrapper pb-0">
+        <div class="page-header flex-wrap">
+          <div class="header-left">
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">SPK</li>
+              <li class="breadcrumb-item active">@yield('title')</li>
+              <base href="{{ \URL::to('/')}}">
+            </ol>
+          </div>
+          {{-- <div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+            <div class="d-flex align-items-center">
+              <a>
+                <p class="m-0 pr-3">@yield('title')</p>
+                <base href="{{ \URL::to('/')}}">
+              </a>
+              <a class="pl-3 mr-4">
+                <p class="m-0">Admin</p>
+              </a>
+            </div>
+          </div> --}}
+        </div>
+
+      <section class="content">
+        @yield('content')
+      </section>
+
+      <footer class="footer">
+        <style>
+          footer {
+              margin-top: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: cadetblue;
+          }
+      </style>
+      
+
+        <div class="d-sm-flex justify-content-center justify-content-sm-between margin bg-light">
+          <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © Sistem Pendukung Keputusan 2022</span>
+        </div>
+      </div>
+      </footer>
+      <!-- partial -->
     </div>
+          
+
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="{{asset('assets')}}/vendors/js/vendor.bundle.base.js"></script>
@@ -205,9 +212,105 @@
     <script src="{{asset('assets')}}/js/misc.js"></script>
     <script src="{{asset('assets')}}/js/settings.js"></script>
     <script src="{{asset('assets')}}/js/todolist.js"></script>
+    <script src="{{ asset('plugins/ijaboCropTool/ijaboCropTool.min.js') }}"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="{{asset('assets')}}/js/dashboard.js"></script>
     <!-- End custom js for this page -->
-  </body>
+        {{-- CUSTOM JS CODES --}}
+<script>
+
+  $.ajaxSetup({
+     headers:{
+       'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+     }
+  });
+  
+  $(function(){
+
+    /* UPDATE ADMIN PERSONAL INFO */
+
+    $('#AdminInfoForm').on('submit', function(e){
+        e.preventDefault();
+
+        $.ajax({
+           url:$(this).attr('action'),
+           method:$(this).attr('method'),
+           data:new FormData(this),
+           processData:false,
+           dataType:'json',
+           contentType:false,
+           beforeSend:function(){
+               $(document).find('span.error-text').text('');
+           },
+           success:function(data){
+                if(data.status == 0){
+                  $.each(data.error, function(prefix, val){
+                    $('span.'+prefix+'_error').text(val[0]);
+                  });
+                }else{
+                  $('.admin_name').each(function(){
+                     $(this).html( $('#AdminInfoForm').find( $('input[name="name"]') ).val() );
+                  });
+                  alert(data.msg);
+                }
+          }
+        });
+    });
+
+
+
+    $(document).on('click','#change_picture_btn', function(){
+      $('#admin_image').click();
+    });
+
+
+    $('#admin_image').ijaboCropTool({
+          preview : '.admin_picture',
+          setRatio:1,
+          allowedExtensions: ['jpg', 'jpeg','png'],
+          buttonsText:['CROP','QUIT'],
+          buttonsColor:['#30bf7d','#ee5155', -15],
+          processUrl:'{{ route("userPictureUpdate") }}',
+          // withCSRF:['_token','{{ csrf_token() }}'],
+          onSuccess:function(message, element, status){
+             alert(message);
+          },
+          onError:function(message, element, status){
+            alert(message);
+          }
+       });
+
+
+    $('#changePasswordAdminForm').on('submit', function(e){
+         e.preventDefault();
+
+         $.ajax({
+            url:$(this).attr('action'),
+            method:$(this).attr('method'),
+            data:new FormData(this),
+            processData:false,
+            dataType:'json',
+            contentType:false,
+            beforeSend:function(){
+              $(document).find('span.error-text').text('');
+            },
+            success:function(data){
+              if(data.status == 0){
+                $.each(data.error, function(prefix, val){
+                  $('span.'+prefix+'_error').text(val[0]);
+                });
+              }else{
+                $('#changePasswordAdminForm')[0].reset();
+                alert(data.msg);
+              }
+            }
+         });
+    });
+
+    
+  });
+
+</script>
+</body>
 </html>

@@ -5,6 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Sistem Pendukung Keputusan</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{asset('assets')}}/vendors/mdi/css/materialdesignicons.min.css">
@@ -14,6 +15,7 @@
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{asset('assets')}}/vendors/jquery-bar-rating/css-stars.css" />
     <link rel="stylesheet" href="{{asset('assets')}}/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="{{ asset('plugins/ijaboCropTool/ijaboCropTool.min.css') }}">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
@@ -32,12 +34,12 @@
           <li class="nav-item nav-profile border-bottom">
             <a href="#" class="nav-link flex-column">
               <div class="nav-profile-image">
-                <img src="{{asset('assets')}}/images/faces/face1.jpg" alt="profile" />
+                <img src="{{ Auth::user()->picture }}" alt="profile" />
                 <!--change to offline or busy as needed-->
               </div>
               <div class="nav-profile-text d-flex ml-0 mb-3 flex-column">
                 <span class="font-weight-semibold mb-1 mt-2 text-center">Admin</span>
-                <span class="text-secondary icon-sm text-center">Dinda Tryandhary</span>
+                <span class="text-secondary icon-sm text-center">{{ Auth::user()->name }}</span>
               </div>
             </a>
           </li>
@@ -53,37 +55,43 @@
             </form>
           </li>
           <li class="pt-2 pb-1">
-            <span class="nav-item-head">Template Pages</span>
+            <center><span class="nav-item-head">Sistem Pendukung Keputusan</span></center>
           </li>
           {{-- Main menu Dashboard  --}}
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.dashboard')}}">
-              <i class="mdi mdi-view-dashboard menu-icon"></i>
+            <a class="nav-link {{ (request()->is('admin/dashboard*')) ? 'active' : ''}}" href="{{ route('admin.dashboard')}}">
+              <i class="mdi mdi-compass-outline menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.rekomendasi')}}">
-                <i class="mdi mdi-wunderlist menu-icon"></i>
-                <span class="menu-title">Recommendation</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.hasil')}}">
+            <a class="nav-link {{ (request()->is('admin/rekomendasi*')) ? 'active' : ''}}" href="{{ route('admin.rekomendasi')}}">
+              <i class="mdi mdi-wunderlist menu-icon"></i>
+              <span class="menu-title">Rekomendasi</span>
+            </a>
+          </li>
+            {{-- <li class="nav-item">
+              <a class="nav-link {{ (request()->is('admin/hasil*')) ? 'active' : ''}}" href="{{ route('admin.hasil')}}">
                 <i class="mdi mdi-account-search menu-icon"></i>
                 <span class="menu-title">Hasil</span>
               </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.list')}}">
+              <a class="nav-link {{ (request()->is('admin/list*')) ? 'active' : ''}}" href="{{ route('admin.list')}}">
                 <i class="mdi mdi-cellphone-android menu-icon"></i>
-                <span class="menu-title">Daftar Smartphone</span>
+                <span class="menu-title">Data Smartphone</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.tentang')}}">
+              <a class="nav-link {{ (request()->is('admin/tentang*')) ? 'active' : ''}}" href="{{ route('admin.tentang')}}">
                 <i class="mdi mdi-file-document-box menu-icon"></i>
-                <span class="menu-title">Tentang</span>
+                <span class="menu-title">About Project</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ (request()->is('admin/profile*')) ? 'active' : ''}}" href="{{ route('admin.profile')}}">
+                <i class="mdi mdi mdi-settings menu-icon"></i>
+                <span class="menu-title">Setting Profile</span>
               </a>
             </li>
             <li class="nav-item pt-3">
@@ -121,6 +129,7 @@
             <div class="tiles info"></div>
             <div class="tiles dark"></div>
             <div class="tiles light"></div>
+            <div class="tiles blue"></div>
           </div>
         </div>
         <!-- partial -->
@@ -134,6 +143,7 @@
               <a class="navbar-brand brand-logo-mini" href="#"><img src="{{asset('assets')}}/images/logo-mini.svg" alt="logo" /></a>
             </div>
             <ul class="navbar-nav navbar-nav-right">
+              {{-- <h6>Sistem Pendukung Keputusan</h6> --}}
               <li class="nav-item nav-logout d-none d-lg-block">
                 <a class="nav-link" href="{{ route('admin.dashboard')}}">
                   <i class="mdi mdi-home-circle"></i>
@@ -151,7 +161,14 @@
             <div class="page-header flex-wrap">
               <div class="header-left">
               </div>
-              <div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item">SPK</li>
+                  <li class="breadcrumb-item active">@yield('title')</li>
+                  <base href="{{ \URL::to('/')}}">
+                </ol>
+              </div>
+              {{-- <div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
                 <div class="d-flex align-items-center">
                   <a>
                     <p class="m-0 pr-3">@yield('title')</p>
@@ -161,7 +178,7 @@
                     <p class="m-0">Admin</p>
                   </a>
                 </div>
-              </div>
+              </div> --}}
             </div>
 
           <section class="content">
@@ -211,9 +228,106 @@
     <script src="{{asset('assets')}}/js/misc.js"></script>
     <script src="{{asset('assets')}}/js/settings.js"></script>
     <script src="{{asset('assets')}}/js/todolist.js"></script>
+    <script src="{{ asset('plugins/ijaboCropTool/ijaboCropTool.min.js') }}"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="{{asset('assets')}}/js/dashboard.js"></script>
     <!-- End custom js for this page -->
-  </body>
+
+    {{-- CUSTOM JS CODES --}}
+<script>
+
+  $.ajaxSetup({
+     headers:{
+       'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+     }
+  });
+  
+  $(function(){
+
+    /* UPDATE ADMIN PERSONAL INFO */
+
+    $('#AdminInfoForm').on('submit', function(e){
+        e.preventDefault();
+
+        $.ajax({
+           url:$(this).attr('action'),
+           method:$(this).attr('method'),
+           data:new FormData(this),
+           processData:false,
+           dataType:'json',
+           contentType:false,
+           beforeSend:function(){
+               $(document).find('span.error-text').text('');
+           },
+           success:function(data){
+                if(data.status == 0){
+                  $.each(data.error, function(prefix, val){
+                    $('span.'+prefix+'_error').text(val[0]);
+                  });
+                }else{
+                  $('.admin_name').each(function(){
+                     $(this).html( $('#AdminInfoForm').find( $('input[name="name"]') ).val() );
+                  });
+                  alert(data.msg);
+                }
+          }
+        });
+    });
+
+
+
+    $(document).on('click','#change_picture_btn', function(){
+      $('#admin_image').click();
+    });
+
+
+    $('#admin_image').ijaboCropTool({
+          preview : '.admin_picture',
+          setRatio:1,
+          allowedExtensions: ['jpg', 'jpeg','png'],
+          buttonsText:['CROP','QUIT'],
+          buttonsColor:['#30bf7d','#ee5155', -15],
+          processUrl:'{{ route("adminPictureUpdate") }}',
+          // withCSRF:['_token','{{ csrf_token() }}'],
+          onSuccess:function(message, element, status){
+             alert(message);
+          },
+          onError:function(message, element, status){
+            alert(message);
+          }
+       });
+
+
+    $('#changePasswordAdminForm').on('submit', function(e){
+         e.preventDefault();
+
+         $.ajax({
+            url:$(this).attr('action'),
+            method:$(this).attr('method'),
+            data:new FormData(this),
+            processData:false,
+            dataType:'json',
+            contentType:false,
+            beforeSend:function(){
+              $(document).find('span.error-text').text('');
+            },
+            success:function(data){
+              if(data.status == 0){
+                $.each(data.error, function(prefix, val){
+                  $('span.'+prefix+'_error').text(val[0]);
+                });
+              }else{
+                $('#changePasswordAdminForm')[0].reset();
+                alert(data.msg);
+              }
+            }
+         });
+    });
+
+    
+  });
+
+</script>
+</body>
 </html>

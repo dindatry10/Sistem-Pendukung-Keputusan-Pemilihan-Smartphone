@@ -141,6 +141,9 @@
       &.dark{
         @extend .bg-dark;
       }
+      &.blue{
+        @extend .bg-blue;
+      }
       &.light{
         border:1px solid lighten(color(gray),60%);
         @extend .bg-light;

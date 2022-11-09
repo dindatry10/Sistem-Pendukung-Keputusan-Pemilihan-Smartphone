@@ -1,5 +1,5 @@
 @extends('dashboards.admins.layouts.admin-dash-layout')
-@section('title','Daftar Smartphone')
+@section('title','Data Smartphone')
 
 @section('content')
 
@@ -9,6 +9,18 @@
     <div class="card-body p-2">
     <div class="p-3">
     <a href="{{ route ('list.add') }}" type="submit" class="btn btn-primary" style="margin-bottom:10px"><i class="btn-md mdi mdi-file-check btn-icon-prepend"></i>Tambah Data</a>
+
+    <div class="form-group">
+    <form class="d-flex align-items-center" action="/admin/search" class="form-inline" method="GET">
+        <div class="input-group">
+          <input type="search" name="search" class="form-control" placeholder="Cari Data Smartphone" aria-label="Cari Data Smartphone" aria-describedby="basic-addon2" />
+          <div class="input-group-append">
+            <button class="btn btn-sm btn-primary" type="button"> Search </button>
+          </div>
+        </div>
+    </form>
+</div>
+
     <table class="table table-hover table-striped table-bordered ">
         <thead>
             <tr>

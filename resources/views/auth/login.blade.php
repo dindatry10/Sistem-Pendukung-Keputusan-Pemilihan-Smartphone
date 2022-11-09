@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/my-login.css">
 	<link rel="shortcut icon" href="{{asset('assets')}}/images/logos.png" />
+	
 </head>
 
 <body class="my-login-page">
@@ -18,16 +20,16 @@
 			
 					<div class="cardx fat mt-5">
 						<div class="card-body">
-							<h4 class="card-title text-center">Login</h4>
+							<h4 class="card-title text-center text-white">Login</h4>
 							<form method="POST" class="my-login-validation" autocomplete="off" action="{{ route('login') }}">
                                 @csrf
-								<div class="form-group">
-									<label for="email">E-Mail Address</label>
+								<div class="form-group text-white">
+									<label for="email text">E-Mail Address</label>
 									<input id="email" type="email" class="form-control" name="email" value="" required autofocus placeholder="Enter email">
                                     <span class="text-danger">@error('email'){{ $message }}@enderror</span>
 								</div>
 
-								<div class="form-group">
+								<div class="form-group text-white">
 									<label for="password">Password
 										<a href="{{route('password.request')}}" class="float-right">
 											Forgot Password?
@@ -37,7 +39,7 @@
                                     <span class="text-danger">@error('password'){{ $message }}@enderror</span>
 								</div>
 
-								<div class="form-group">
+								<div class="form-group text-white">
 									<div class="custom-checkbox custom-control">
 										<input type="checkbox" name="remember" id="remember" class="custom-control-input">
 										<label for="remember" class="custom-control-label">Remember me</label>
@@ -49,7 +51,7 @@
 										Login
 									</button>
 								</div>
-								<div class="mt-4 text-center">
+								<div class="mt-4 text-center text-white">
 									Don't have an account? <a href="{{route('register')}}">Create One</a>
 								</div>
 							</form>
