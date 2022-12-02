@@ -22,14 +22,33 @@ class AdminController extends Controller
         return view('dashboards.admins.list.list', $data);
     }
 
-    public function search(Request $request)
+    public function searchlist(Request $request)
     {
-        if ($request->has('search')) {
-            $data = DB::where('nama_hp', 'LIKE', '%' . $request->search . '%')->get();
+        if (isset($_GET['query']) && strlen($_GET['query']) > 1) {
+
+            $search_text = $_GET['query'];
+            $data = DB::table('datas')->where('nama_hp', 'LIKE', '%' . $search_text . '%')->paginate(2);
+            $data->appends($request->all());
+            return view('dashboards.admins.list.list', ['list' => $data]);
         } else {
-            $data = DB::all();
+            return view('dashboards.admins.list.list');
         }
-        return view('dashboards.admins.list.list', ['data' => $data]);
+        return view('dashboards.admins.list.list');
+    }
+
+    public function findlist(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|min:2'
+        ]);
+
+        $search_text = $request->input('query');
+        $data = DB::table('datas')
+            ->where('nama_hp', 'LIKE', '%' . $search_text . '%')
+            //   ->orWhere('SurfaceArea','<', 10)
+            //   ->orWhere('LocalName','like','%'.$search_text.'%')
+            ->paginate(2);
+        return view('dashboards.admins.list.list', ['list' => $data]);
     }
 
     public function edit($id_hp)
@@ -124,7 +143,9 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return view('dashboards.admins.dashboard.dashboard');
+        $totalUser = DB::table('users')->count();
+        $totalData = DB::table('datas')->count();
+        return view('dashboards.admins.dashboard.dashboard', compact('totalUser', 'totalData'));
     }
     public function rekomendasi()
     {

@@ -11,12 +11,12 @@
           <div class="color-card primary m-auto">
             <i class="mdi mdi-database"></i>
             <p class="font-weight-semibold mb-0">Data</p>
-            <span class="small">15 Data</span>
+            <span class="small">{{ $totalData }} Data</span>
           </div>    
           <div class="color-card bg-danger m-auto">
             <i class="mdi mdi-account-box-outline"></i>
             <p class="font-weight-semibold mb-0">User</p>
-            <span class="small">7 Pengguna</span>
+            <span class="small">{{ $totalUser }} Pengguna</span>
           </div>
       </div>
     </div>

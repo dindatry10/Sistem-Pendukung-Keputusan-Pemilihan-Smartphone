@@ -36,8 +36,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('/update/{id_hp}', [AdminController::class, 'update'])->name('list.update');
     Route::get('/add', [AdminController::class, 'add'])->name('list.add');
     Route::post('/store', [AdminController::class, 'store'])->name('list.store');
+    Route::get('admin/search', [AdminController::class, 'searchlist'])->name('list.search');
+    Route::get('admin/find', [AdminController::class, 'findlist'])->name('list.find');
     Route::get('/hapus/{id_hp?}', [AdminController::class, 'hapus'])->name('list.hapus');
-    Route::get('/admin/search', [AdminController::class, 'search'])->name('list.search');
 });
 
 Route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBackHistory']], function () {
